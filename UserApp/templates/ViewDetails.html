@@ -1,0 +1,30 @@
+{%extends "homepage.html"%}
+
+{%block content%}
+<center>
+<h1>View Details</h1>
+<form method="post" action="/AddToCart">
+    {%csrf_token%}
+<table class="table">
+    <tr><td>product Id</td><td>{{Ecommerces.id}}
+        <input type="hidden" name="eid" value="{{Ecommerces.id}}"/>
+    </td></tr>
+    <tr><td>product Name</td><td>{{Ecommerces.product_name}}</td></tr>
+    <tr><td>product Price</td><td>{{Ecommerces.price}}</td></tr>
+    <tr><td>product Description</td><td>{{Ecommerces.description}}</td></tr>
+    <tr><td>Category</td><td>{{Ecommerces.cat_fk}}</td></tr>
+    <tr><td>Image</td><td><img src="{{Ecommerces.image.url}}" 
+        style="height:200px;width:200px"/></td></tr>
+    <tr><td>Select Quantity</td>
+    <td><select name="qty" class="form-control">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select></td></tr>
+    <tr><td><button type="submit" class="button btn-success">Add To Cart</button></td>
+    <td></td></tr>
+</table>
+</center>
+{%endblock%}

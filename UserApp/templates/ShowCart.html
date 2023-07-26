@@ -1,0 +1,64 @@
+{%extends "homepage.html"%}
+
+{%block content%}
+<script type="text/javascript">
+    function increment(tid)
+    {
+        //alert("I am increment");
+        txt = document.getElementById(tid);
+        val = parseInt(txt.value);
+        if(val <5)
+        {
+            txt.value = val+1;
+        }        
+    }
+
+    function decrement(tid)
+    {
+        txt = document.getElementById(tid);
+        val = parseInt(txt.value);
+        if(val >1)
+        {
+            txt.value = val-1;
+        }
+        
+    }
+
+</script>
+<center>
+<h1>Cart Details</h1>
+<table class="table">
+    <tr><th>Product Id</th>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>quantity</th>
+    <th>Sub Total</th>
+</tr>
+    {%for item in items%}
+    <form method="post" action="/ModifyCart">
+        {%csrf_token%}
+    <tr><td>{{item.Ecommerce.id}}
+        <input type="hidden" name="eid" value="{{item.Ecommerce.id}}"/>
+    </td>
+        <td>{{item.Ecommerce.product_name}}</td>
+        <td>{{item.Ecommerce.price}}</td>
+        <td><img src="{{item.Ecommerce.image.url}}" 
+        style="height:50px;width:50px"/></td>
+        <td><button type="button" onclick="decrement('qty{{item.Ecommerce.id}}');" value=" -  " class="btn btn-danger">- </button>
+            <input type="text" class="form" name="qty" id="qty{{item.Ecommerce.id}}" size="4" value="{{item.qty}}"/>
+            <button type="button" onclick="increment('qty{{item.Ecommerce.id}}');" value=" +  " class="btn btn-danger">+ </button>
+            <button type="submit" name="action" value="Update" class="btn btn-danger">Update</button>        
+        </td>
+        <td>{% widthratio item.Ecommerce.price 1 item.qty %}</td><!--code for multiplication-->
+        <td><button type="submit" value="Remove" name="action" class="btn btn-danger">Remove</button></td>
+    </tr>`
+</form>
+    {%endfor%}
+</table>
+</form>
+<hr/>
+<h3> Total Amount : {{request.session.total}}</h3>
+<a href="/MakePayment">Proceed to Make Payment</a>
+</center>
+{%endblock%}
